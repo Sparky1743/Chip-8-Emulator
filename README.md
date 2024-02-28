@@ -1,2 +1,2 @@
 # Chip-8-Emulator
-Implementation of Chip8 emulator from scratch
+Implementation of Chip8 emulator from scratch (under development)
