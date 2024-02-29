@@ -5,14 +5,15 @@
 #include <cstring>
 #include <chrono>
 #include <stdio.h>
+#include <random>
 
 const unsigned int FONTSET_SIZE = 80;
 const unsigned int START_ADDRESS = 0x200; // First instruction address
 const unsigned int FONTSET_START_ADDRESS = 0x50;
 
-uint8_t fontset[FONTSET_SIZE] = // There are 16 characters at 5 bytes each, so we need an array of 80 bytes.
+uint8_t fontset[FONTSET_SIZE] = // Fonts to be displayed. There are 16 characters at 5 bytes each, so we need an array of 80 bytes.
 {
-	0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+	0xF0, 0x90, 0x90, 0x90, 0xF0, // represents 0
 	0x20, 0x60, 0x20, 0x20, 0x70, // 1
 	0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
 	0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
@@ -33,7 +34,10 @@ uint8_t fontset[FONTSET_SIZE] = // There are 16 characters at 5 bytes each, so w
 class Chip8
 {
     public:
+	Chip8();
     void LoadROM(char const *filename);
+
+	private:
 	uint8_t fontset[FONTSET_SIZE];
     uint8_t regs[16]{};            // there are sixteen 8bit (1 byte) registers for storing 1byte in each reg.
     uint8_t memory[4096]{};        // 4kb of memory
@@ -46,6 +50,12 @@ class Chip8
     uint32_t display[64 * 32]{};   // uint32_t used for compatability with modern devices
     uint8_t keypad[4 * 4]{};       // used to take input
     uint16_t opcode{};             // operational codes -- 2 bytes long -- at a time, one op code is only processed
+
+	// Instructions:
+	
+	std::default_random_engine randGen;
+	std::uniform_int_distribution<uint8_t> randByte;
+
 };
 
 void Chip8::LoadROM(char const* filename)
@@ -75,16 +85,19 @@ void Chip8::LoadROM(char const* filename)
 	}
 }
 
-Chip8::Chip8()
+Chip8::Chip8(): randGen(std::chrono::system_clock::now().time_since_epoch().count())
 {
     // Initialize PC
     Program_Counter = START_ADDRESS;
 
-	// Load fonts into memory
+	// Initialize fonts into memory
 	for (unsigned int i = 0; i < FONTSET_SIZE; ++i)
 	{
 		memory[FONTSET_START_ADDRESS + i] = fontset[i];
 	}
+
+	// Initialize RNG
+	randByte = std::uniform_int_distribution<uint8_t>(0, 255U);
 }
 
 
