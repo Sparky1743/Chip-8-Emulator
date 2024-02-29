@@ -1,7 +1,7 @@
 @echo off
 
-set SOURCE_DIR=C:\Users\birud\OneDrive - iitgn.ac.in\Chip8
-set OUTPUT_DIR=C:\Users\birud\OneDrive - iitgn.ac.in\Chip8
+set SOURCE_DIR=C:\Users\birud\OneDrive - iitgn.ac.in\github\Chip-8-Emulator
+set OUTPUT_DIR=C:\Users\birud\OneDrive - iitgn.ac.in\github\Chip-8-Emulator
 set SDL_INCLUDE=-I C:\msys64\mingw64\include\SDL2
 set SDL_LIB=-L C:/msys64/mingw64/lib/cmake/SDL2 -lmingw32 -lSDL2main -lSDL2
 set CFLAGS=-Wall
