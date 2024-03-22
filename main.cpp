@@ -9,6 +9,8 @@
 #include <random>
 // #include <basic_string.h>
 
+// Run the code using ./main.exe 25 1 ttt.ch8 
+
 const unsigned int FONTSET_SIZE = 80;
 const unsigned int START_ADDRESS = 0x200; // First instruction address
 const unsigned int FONTSET_START_ADDRESS = 0x50;
